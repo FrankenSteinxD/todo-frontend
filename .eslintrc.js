@@ -22,5 +22,20 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': 0,
     'react/jsx-one-expression-per-line': 0,
+    'import/order': 0,
+  },
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['lib', './src/lib'],
+          ['pages', './src/pages'],
+          ['reducers', './src/reducers'],
+          ['components', './src/components'],
+          ['elements', './src/elements'],
+          ['services', './src/services'],
+        ],
+      },
+    },
   },
 };

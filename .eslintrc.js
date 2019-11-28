@@ -23,17 +23,23 @@ module.exports = {
     'react/jsx-filename-extension': 0,
     'react/jsx-one-expression-per-line': 0,
     'import/order': 0,
+    'react/jsx-props-no-spreading': 0,
+    'import/prefer-default-export': 0,
   },
   settings: {
     'import/resolver': {
       alias: {
+        // @TODO: find a better way to do this
         map: [
+          ['config', './src/config'],
           ['lib', './src/lib'],
           ['pages', './src/pages'],
           ['reducers', './src/reducers'],
+          ['actions', './src/actions'],
           ['components', './src/components'],
           ['elements', './src/elements'],
           ['services', './src/services'],
+          ['layouts', './src/layouts'],
         ],
       },
     },

@@ -9,6 +9,7 @@ import { registerWithEmail as basicRegister } from 'actions/users';
 import { formatTodoError } from 'lib/util';
 import Form from './Register/Form';
 import Header from './Register/Header';
+import Links from './Register/Links';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,6 +43,7 @@ const Register = ({ registerWithEmail, navigate }) => {
       <div className={classes.paper}>
         <Header />
         <Form onSubmit={handleSubmit} />
+        <Links />
       </div>
     </GuestLayout>
   );

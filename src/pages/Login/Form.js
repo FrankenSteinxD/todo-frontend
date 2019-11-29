@@ -22,13 +22,10 @@ const formSchema = Yup.object().shape({
   email: Yup.string()
     .email()
     .required(),
-  password: Yup.string()
-    .min(5)
-    .max(30)
-    .required(),
+  password: Yup.string().required(),
 });
 
-const RegisterForm = ({ onSubmit }) => {
+const LoginForm = ({ onSubmit }) => {
   const classes = useStyles();
   return (
     <Formik
@@ -70,7 +67,7 @@ const RegisterForm = ({ onSubmit }) => {
             className={classes.submit}
             disabled={isSubmitting}
           >
-            Register
+            Login
           </Button>
         </Form>
       )}
@@ -78,8 +75,8 @@ const RegisterForm = ({ onSubmit }) => {
   );
 };
 
-RegisterForm.propTypes = {
+LoginForm.propTypes = {
   onSubmit: func.isRequired,
 };
 
-export default RegisterForm;
+export default LoginForm;

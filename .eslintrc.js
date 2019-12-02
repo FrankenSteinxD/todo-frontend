@@ -25,6 +25,7 @@ module.exports = {
     'import/order': 0,
     'react/jsx-props-no-spreading': 0,
     'import/prefer-default-export': 0,
+    'react/no-array-index-key': 0,
   },
   settings: {
     'import/resolver': {
@@ -40,6 +41,7 @@ module.exports = {
           ['elements', './src/elements'],
           ['services', './src/services'],
           ['layouts', './src/layouts'],
+          ['assets', './src/assets'],
         ],
       },
     },

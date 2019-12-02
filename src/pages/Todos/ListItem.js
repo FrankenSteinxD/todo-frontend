@@ -4,10 +4,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import Check from '@material-ui/icons/Check';
-import Delete from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/Check';
+import TrashIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@material-ui/icons/Cancel';
+import RestoreIcon from '@material-ui/icons/ArrowBack';
 import { makeStyles } from '@material-ui/core/styles';
 import { shape, string, bool, func } from 'prop-types';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import { green, red, orange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -16,13 +21,27 @@ const useStyles = makeStyles((theme) => ({
   text: {
     textDecoration: (item) => (item.complete ? 'line-through' : 'none'),
   },
-  icon: {
-    color: (item) => (item.complete ? 'green' : 'unset'),
+  checkIcon: {
+    color: green[400],
+  },
+  trashIcon: {
+    color: orange[400],
+  },
+  restoreIcon: {
+    color: green[300],
+  },
+  deleteIcon: {
+    color: red[300],
   },
 }));
 
-const ListItem = ({ item, onComplete, onDelete }) => {
+const ListItem = ({ item, onComplete, onTrash, onRestore, onDelete }) => {
   const classes = useStyles(item);
+
+  const canComplete = !item.trashed && !item.complete;
+  const canTrash = !item.trashed;
+  const canDelete = item.trashed;
+  const canRestore = item.trashed;
 
   return (
     <MListItem className={classes.item} dense>
@@ -34,12 +53,34 @@ const ListItem = ({ item, onComplete, onDelete }) => {
         className={classes.text}
       />
       <ListItemSecondaryAction>
-        <IconButton onClick={() => onComplete(item)}>
-          <Check className={classes.icon} />
-        </IconButton>
-        <IconButton onClick={() => onDelete(item)}>
-          <Delete className={classes.icon} />
-        </IconButton>
+        {canComplete ? (
+          <IconButton onClick={() => onComplete(item)}>
+            <Tooltip title="Complete">
+              <CheckIcon className={classes.checkIcon} />
+            </Tooltip>
+          </IconButton>
+        ) : null}
+        {canTrash ? (
+          <IconButton onClick={() => onTrash(item)}>
+            <Tooltip title="Trash">
+              <TrashIcon className={classes.trashIcon} />
+            </Tooltip>
+          </IconButton>
+        ) : null}
+        {canRestore ? (
+          <IconButton onClick={() => onRestore(item)}>
+            <Tooltip title="Restore">
+              <RestoreIcon className={classes.restoreIcon} />
+            </Tooltip>
+          </IconButton>
+        ) : null}
+        {canDelete ? (
+          <IconButton onClick={() => onDelete(item)}>
+            <Tooltip title="Delete Forever">
+              <DeleteIcon className={classes.deleteIcon} />
+            </Tooltip>
+          </IconButton>
+        ) : null}
       </ListItemSecondaryAction>
     </MListItem>
   );
@@ -55,6 +96,8 @@ ListItem.propTypes = {
     createdAt: string.isRequired,
   }).isRequired,
   onComplete: func.isRequired,
+  onTrash: func.isRequired,
+  onRestore: func.isRequired,
   onDelete: func.isRequired,
 };
 

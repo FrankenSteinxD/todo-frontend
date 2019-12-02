@@ -21,7 +21,7 @@ function a11yProps(index) {
   };
 }
 
-const TabList = ({ items, ...others }) => {
+const TabList = ({ tabs, ...others }) => {
   const [index, setIndex] = useState(0);
   const handleChange = useCallback((_, i) => setIndex(i), []);
   return (
@@ -34,19 +34,14 @@ const TabList = ({ items, ...others }) => {
           textColor="primary"
           {...others}
         >
-          {items.map((item, i) => (
-            <Tab
-              key={i}
-              label={item.label}
-              icon={item.icon}
-              {...a11yProps(i)}
-            />
+          {tabs.map((tab, i) => (
+            <Tab key={i} label={tab.label} icon={tab.icon} {...a11yProps(i)} />
           ))}
         </Tabs>
       </Paper>
-      {items.map((item, i) => (
+      {tabs.map((tab, i) => (
         <TabPanel key={i} value={index} index={i}>
-          {item.component}
+          {tab.component}
         </TabPanel>
       ))}
     </>
@@ -54,11 +49,11 @@ const TabList = ({ items, ...others }) => {
 };
 
 TabList.defaultProps = {
-  items: [],
+  tabs: [],
 };
 
 TabList.propTypes = {
-  items: arrayOf(
+  tabs: arrayOf(
     shape({
       label: string,
       icon: element,

@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 
 import createRootReducer from 'reducers';
 
+let store = null;
+
 // eslint-disable-next-line
 if (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'function') {
   // eslint-disable-next-line
@@ -15,7 +17,9 @@ if (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'function') {
 export const history = createBrowserHistory();
 
 export default function configureStore(preloadedState) {
-  const store = createStore(
+  if (store) return store;
+
+  store = createStore(
     createRootReducer(history),
     preloadedState,
     compose(

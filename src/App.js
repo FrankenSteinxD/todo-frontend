@@ -1,31 +1,15 @@
 import React from 'react';
-import { ConnectedRouter } from 'connected-react-router';
-import { Switch, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-import { history } from 'lib/store';
-import Register from 'pages/Register';
-import Login from 'pages/Login';
-import ThanksForRegistering from 'pages/ThanksForRegistering';
-import GuestRoute from 'components/GuestRoute';
-import PrivateRoute from 'components/PrivateRoute';
-import Dashboard from 'pages/Dashboard';
+import configureStore from 'lib/store';
+import Router from './Router';
 
-function App() {
-  return (
-    <ConnectedRouter history={history}>
-      <Switch>
-        <GuestRoute
-          exact
-          path="/users/thanks_for_registering"
-          component={ThanksForRegistering}
-        />
-        <GuestRoute exact path="/users/register" component={Register} />
-        <GuestRoute exact path="/users/login" component={Login} />
-        <PrivateRoute path="/" component={Dashboard} />
-        <Redirect to="/users/register" />
-      </Switch>
-    </ConnectedRouter>
-  );
-}
+const store = configureStore();
+
+const App = () => (
+  <Provider store={store}>
+    <Router />
+  </Provider>
+);
 
 export default App;

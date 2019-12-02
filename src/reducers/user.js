@@ -1,4 +1,4 @@
-import { LOGIN_USER_SUCCESS } from 'actions/users';
+import { LOGIN_USER_SUCCESS, LOGOUT } from 'actions/users';
 
 const initialState = {
   isAuthenticated: false,
@@ -12,6 +12,12 @@ export default (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         user: action.payload.user,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: {},
       };
     default:
       return state;

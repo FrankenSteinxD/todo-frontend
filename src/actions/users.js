@@ -27,6 +27,15 @@ export function loginWithEmail(data) {
   };
 }
 
+export const LOGOUT = 'LOGOUT';
+export function logout() {
+  // eslint-disable-next-line no-use-before-define
+  removeLocalLoginToken();
+  return {
+    type: LOGOUT,
+  };
+}
+
 export function setLocalLoginToken(token) {
   localStorage.setItem('loginToken', token);
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;

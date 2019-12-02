@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { func } from 'prop-types';
 
+import { logout as logoutUser } from 'actions/users';
 import UserMenu from './Navbar/UserMenu';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = ({ navigate }) => {
+const Navbar = ({ navigate, logout }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -58,6 +59,7 @@ const Navbar = ({ navigate }) => {
               anchorEl={anchorEl}
               handleClose={handleClose}
               navigate={navigate}
+              logout={logout}
             />
           </div>
         </Toolbar>
@@ -68,6 +70,7 @@ const Navbar = ({ navigate }) => {
 
 Navbar.propTypes = {
   navigate: func.isRequired,
+  logout: func.isRequired,
 };
 
-export default connect(null, { navigate: push })(Navbar);
+export default connect(null, { navigate: push, logout: logoutUser })(Navbar);

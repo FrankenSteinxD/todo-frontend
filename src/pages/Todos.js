@@ -5,6 +5,7 @@ import { arrayOf, bool, func, shape, string } from 'prop-types';
 import CheckIcon from '@material-ui/icons/Check';
 import ListIcon from '@material-ui/icons/List';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { toast, ToastContainer } from 'react-toastify';
 
 import * as TodoActions from 'actions/todos';
 import { formatTodoError } from 'lib/util';
@@ -47,6 +48,7 @@ const Todos = ({
         try {
           await createTodo(data);
           form.resetForm();
+          toast.info('New todo has been added to the list.');
         } catch (e) {
           const errors = formatTodoError(e);
           form.setErrors(errors);
@@ -58,28 +60,56 @@ const Todos = ({
 
   const handleCompleteTodo = useCallback(
     (todo) => {
-      completeTodo(todo._id);
+      (async () => {
+        try {
+          await completeTodo(todo._id);
+          toast.info('Todo has been completed.');
+        } catch (e) {
+          toast.error('Could not complete todo.');
+        }
+      })();
     },
     [completeTodo],
   );
 
   const handleTrashTodo = useCallback(
     (todo) => {
-      trashTodo(todo._id);
+      (async () => {
+        try {
+          await trashTodo(todo._id);
+          toast.info('Todo has been trashed.');
+        } catch (e) {
+          toast.error('Could not trash todo.');
+        }
+      })();
     },
     [trashTodo],
   );
 
   const handleRestoreTodo = useCallback(
     (todo) => {
-      restoreTodo(todo._id);
+      (async () => {
+        try {
+          await restoreTodo(todo._id);
+          toast.info('Todo has been restored.');
+        } catch (e) {
+          toast.error('Could not restore todo.');
+        }
+      })();
     },
     [restoreTodo],
   );
 
   const handleDeleteTodo = useCallback(
     (todo) => {
-      deleteTodo(todo._id);
+      (async () => {
+        try {
+          await deleteTodo(todo._id);
+          toast.info('Todo has been deleted.');
+        } catch (e) {
+          toast.error('Could not delete todo.');
+        }
+      })();
     },
     [deleteTodo],
   );
@@ -135,6 +165,7 @@ const Todos = ({
 
   return (
     <Loader loading={loading}>
+      <ToastContainer />
       <Box mt={10}>
         <Grid container>
           <Grid item container>

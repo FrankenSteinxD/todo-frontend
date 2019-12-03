@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import jwtDecode from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 import './index.css';
+import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import configureStore from 'lib/store';
 import * as serviceWorker from './serviceWorker';
 import { setLocalLoginToken, LOGIN_USER_SUCCESS } from 'actions/users';
 
+toast.configure();
 const store = configureStore();
 const token = localStorage.getItem('loginToken');
 if (token !== null) {

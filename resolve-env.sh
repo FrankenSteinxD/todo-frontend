@@ -2,6 +2,10 @@
 
 ENV_FILE=/usr/share/nginx/html/env.js
 
+if [ ! -z $1 ]; then
+  ENV_FILE=$1
+fi
+
 rm -rf $ENV_FILE
 
 touch $ENV_FILE

@@ -20,6 +20,7 @@ const Router = () => (
       />
       <GuestRoute exact path="/users/register" component={Register} />
       <GuestRoute exact path="/users/login" component={Login} />
+
       <PrivateRoute exact path="/" component={Dashboard} />
       <Redirect to="/users/login" />
     </Switch>

@@ -9,3 +9,11 @@ export function registerWithEmail(data) {
 export function loginWithEmail(data) {
   return axios.post(`${API_URL}/users/login/basic`, data);
 }
+
+export function refreshToken() {
+  return axios.get(`${API_URL}/users/refresh_token`);
+}
+
+export function logout() {
+  return axios.get(`${API_URL}/users/logout`);
+}

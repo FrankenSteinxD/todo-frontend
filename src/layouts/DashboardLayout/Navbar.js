@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { func } from 'prop-types';
 
-import { logout as logoutUser } from 'actions/users';
+import * as UserActions from 'actions/users';
 import UserMenu from './Navbar/UserMenu';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,4 +73,7 @@ Navbar.propTypes = {
   logout: func.isRequired,
 };
 
-export default connect(null, { navigate: push, logout: logoutUser })(Navbar);
+export default connect(null, {
+  navigate: push,
+  logout: UserActions.logout,
+})(Navbar);

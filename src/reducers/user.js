@@ -1,4 +1,4 @@
-import { LOGIN_USER_SUCCESS, LOGOUT } from 'actions/users';
+import { SET_LOGIN_TOKEN, REMOVE_LOGIN_TOKEN } from 'actions/users';
 
 const initialState = {
   isAuthenticated: false,
@@ -7,17 +7,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_USER_SUCCESS:
+    case SET_LOGIN_TOKEN:
       return {
         ...state,
+        loginToken: action.payload,
         isAuthenticated: true,
-        user: action.payload.user,
       };
-    case LOGOUT:
+
+    case REMOVE_LOGIN_TOKEN:
       return {
         ...state,
+        loginToken: null,
         isAuthenticated: false,
-        user: {},
       };
     default:
       return state;

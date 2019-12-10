@@ -1,14 +1,17 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import configureStore from 'lib/store';
 import Router from './Router';
+import configureStore from 'lib/store';
+import TokenRefresher from 'components/TokenRefresher';
 
 const store = configureStore();
 
 const App = () => (
   <Provider store={store}>
-    <Router />
+    <TokenRefresher>
+      <Router />
+    </TokenRefresher>
   </Provider>
 );
 

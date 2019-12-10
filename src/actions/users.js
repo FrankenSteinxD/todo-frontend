@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   registerWithEmail as basicRegister,
   loginWithEmail as basicLogin,
+  logout as logoutRemotely,
 } from 'services/UserService';
 
 export function registerWithEmail(data) {
@@ -18,30 +19,37 @@ export function loginWithEmail(data) {
     const response = await basicLogin(data);
     const { token } = response.data.response;
     // eslint-disable-next-line no-use-before-define
-    setLocalLoginToken(token);
-    dispatch({
-      type: LOGIN_USER_SUCCESS,
-      payload: response.data.response,
-    });
+    dispatch(setLocalLoginToken(token));
     return response;
   };
 }
 
-export const LOGOUT = 'LOGOUT';
 export function logout() {
-  // eslint-disable-next-line no-use-before-define
-  removeLocalLoginToken();
-  return {
-    type: LOGOUT,
+  return async (dispatch) => {
+    try {
+      await logoutRemotely();
+      // eslint-disable-next-line no-use-before-define
+      dispatch(removeLocalLoginToken());
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
   };
 }
 
+export const SET_LOGIN_TOKEN = 'SET_LOGIN_TOKEN';
 export function setLocalLoginToken(token) {
-  localStorage.setItem('loginToken', token);
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  return {
+    type: SET_LOGIN_TOKEN,
+    payload: token,
+  };
 }
 
+export const REMOVE_LOGIN_TOKEN = 'REMOVE_LOGIN_TOKEN';
 export function removeLocalLoginToken() {
-  localStorage.removeItem('loginToken');
   delete axios.defaults.headers.common.Authorization;
+  return {
+    type: REMOVE_LOGIN_TOKEN,
+  };
 }

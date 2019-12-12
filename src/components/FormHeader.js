@@ -1,8 +1,8 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import AccountBoxIcon from '@material-ui/icons/AccountBoxOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { string, objectOf } from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -11,18 +11,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const FormHeader = ({ title, icon: Icon }) => {
   const classes = useStyles();
   return (
     <>
       <Avatar className={classes.avatar}>
-        <AccountBoxIcon />
+        <Icon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Register
+        {title}
       </Typography>
     </>
   );
 };
 
-export default Header;
+FormHeader.propTypes = {
+  title: string.isRequired,
+  icon: objectOf(Symbol).isRequired,
+};
+
+export default FormHeader;

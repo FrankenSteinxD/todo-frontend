@@ -1,14 +1,16 @@
 import axios from 'axios';
 
-import {
-  registerWithEmail as basicRegister,
-  loginWithEmail as basicLogin,
-  logout as logoutRemotely,
-} from 'services/UserService';
+// import {
+//   registerWithEmail as basicRegister,
+//   loginWithEmail as basicLogin,
+//   logout as logoutRemotely,
+//   sendRestorePasswordEmail
+// } from 'services/UserService';
+import * as UserService from 'services/UserService';
 
 export function registerWithEmail(data) {
   return async () => {
-    const response = await basicRegister(data);
+    const response = await UserService.registerWithEmail(data);
     return response;
   };
 }
@@ -16,7 +18,7 @@ export function registerWithEmail(data) {
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export function loginWithEmail(data) {
   return async (dispatch) => {
-    const response = await basicLogin(data);
+    const response = await UserService.loginWithEmail(data);
     const { token } = response.data.response;
     // eslint-disable-next-line no-use-before-define
     dispatch(setLocalLoginToken(token));
@@ -27,7 +29,7 @@ export function loginWithEmail(data) {
 export function logout() {
   return async (dispatch) => {
     try {
-      await logoutRemotely();
+      await UserService.logout();
       // eslint-disable-next-line no-use-before-define
       dispatch(removeLocalLoginToken());
     } catch (e) {
@@ -52,4 +54,8 @@ export function removeLocalLoginToken() {
   return {
     type: REMOVE_LOGIN_TOKEN,
   };
+}
+
+export function sendRestorePasswordEmail(data) {
+  return () => UserService.sendRestorePasswordEmail(data);
 }

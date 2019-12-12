@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { func } from 'prop-types';
 
-import GuestLayout from 'layouts/GuestLayout';
+import AccountBoxIcon from '@material-ui/icons/AccountBoxOutlined';
+
 import { registerWithEmail as basicRegister } from 'actions/users';
 import { formatTodoError } from 'lib/util';
+import GuestLayout from 'layouts/GuestLayout';
+import FormHeader from 'components/FormHeader';
 import Form from './Register/Form';
-import Header from './Register/Header';
 import Links from './Register/Links';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +43,7 @@ const Register = ({ registerWithEmail, navigate }) => {
   return (
     <GuestLayout>
       <div className={classes.paper}>
-        <Header />
+        <FormHeader title="Register" icon={AccountBoxIcon} />
         <Form onSubmit={handleSubmit} />
         <Links />
       </div>

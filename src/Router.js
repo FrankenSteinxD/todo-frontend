@@ -5,6 +5,8 @@ import { Switch, Redirect } from 'react-router-dom';
 import { history } from 'lib/store';
 import Register from 'pages/Register';
 import Login from 'pages/Login';
+import ForgotPassword from 'pages/ForgotPassword';
+
 import ThanksForRegistering from 'pages/ThanksForRegistering';
 import GuestRoute from 'components/GuestRoute';
 import PrivateRoute from 'components/PrivateRoute';
@@ -20,7 +22,11 @@ const Router = () => (
       />
       <GuestRoute exact path="/users/register" component={Register} />
       <GuestRoute exact path="/users/login" component={Login} />
-
+      <GuestRoute
+        exact
+        path="/users/forgot_password"
+        component={ForgotPassword}
+      />
       <PrivateRoute exact path="/" component={Dashboard} />
       <Redirect to="/users/login" />
     </Switch>

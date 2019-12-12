@@ -3,14 +3,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { func } from 'prop-types';
-import Box from '@material-ui/core/Box';
 
-import GuestLayout from 'layouts/GuestLayout';
-import Alert from 'components/Alert';
+import Box from '@material-ui/core/Box';
+import LockOutlined from '@material-ui/icons/LockOutlined';
+
 import { loginWithEmail as basicRegister } from 'actions/users';
 import { formatTodoError } from 'lib/util';
+import GuestLayout from 'layouts/GuestLayout';
+import FormHeader from 'components/FormHeader';
+import Alert from 'components/Alert';
 import Form from './Login/Form';
-import Header from './Login/Header';
 import Links from './Login/Links';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +31,7 @@ const Login = ({ loginWithEmail, navigate }) => {
   const handleSubmit = useCallback(
     (data, form) => {
       (async () => {
+        setFormError(null);
         try {
           await loginWithEmail(data);
           navigate('/');
@@ -45,7 +48,7 @@ const Login = ({ loginWithEmail, navigate }) => {
   return (
     <GuestLayout>
       <div className={classes.paper}>
-        <Header />
+        <FormHeader title="Login" icon={LockOutlined} />
         {formError ? (
           <Box pt={2} width="100%">
             <Alert variant="error" message={formError} />

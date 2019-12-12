@@ -10,6 +10,10 @@ export function loginWithEmail(data) {
   return axios.post(`${API_URL}/users/login/basic`, data);
 }
 
+export function sendRestorePasswordEmail(data) {
+  return axios.post(`${API_URL}/users/password/forgot`, data);
+}
+
 export function refreshToken() {
   return axios.get(`${API_URL}/users/refresh_token`);
 }

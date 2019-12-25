@@ -10,3 +10,15 @@ export function formatTodoError(e) {
 
   return ret;
 }
+
+export function parseQuerytring(qs) {
+  return qs
+    .replace(/\?/g, '')
+    .split('&')
+    .map((entry) => entry.split('='))
+    .reduce((prev, cur) => {
+      // eslint-disable-next-line
+      prev[cur[0]] = cur[1];
+      return prev;
+    }, {});
+}

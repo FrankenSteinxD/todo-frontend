@@ -27,7 +27,7 @@ const Register = ({ registerWithEmail, navigate }) => {
 
   const handleSubmit = useCallback(
     (data, form) => {
-      (async () => {
+      return (async () => {
         try {
           await registerWithEmail(data);
           navigate('/users/thanks_for_registering');

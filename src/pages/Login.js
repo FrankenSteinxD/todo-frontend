@@ -30,7 +30,7 @@ const Login = ({ loginWithEmail, navigate }) => {
 
   const handleSubmit = useCallback(
     (data, form) => {
-      (async () => {
+      return (async () => {
         setFormError(null);
         try {
           await loginWithEmail(data);

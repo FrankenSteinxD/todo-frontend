@@ -11,6 +11,7 @@ import ThanksForRegistering from 'pages/ThanksForRegistering';
 import GuestRoute from 'components/GuestRoute';
 import PrivateRoute from 'components/PrivateRoute';
 import Dashboard from 'pages/Dashboard';
+import ResetPassword from 'pages/ResetPassword';
 
 const Router = () => (
   <ConnectedRouter history={history}>
@@ -26,6 +27,11 @@ const Router = () => (
         exact
         path="/users/forgot_password"
         component={ForgotPassword}
+      />
+      <GuestRoute
+        exact
+        path="/users/reset_password"
+        component={ResetPassword}
       />
       <PrivateRoute exact path="/" component={Dashboard} />
       <Redirect to="/users/login" />

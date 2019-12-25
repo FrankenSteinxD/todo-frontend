@@ -1,11 +1,5 @@
 import axios from 'axios';
 
-// import {
-//   registerWithEmail as basicRegister,
-//   loginWithEmail as basicLogin,
-//   logout as logoutRemotely,
-//   sendRestorePasswordEmail
-// } from 'services/UserService';
 import * as UserService from 'services/UserService';
 
 export function registerWithEmail(data) {
@@ -58,4 +52,8 @@ export function removeLocalLoginToken() {
 
 export function sendRestorePasswordEmail(data) {
   return () => UserService.sendRestorePasswordEmail(data);
+}
+
+export function resetPassword(data) {
+  return () => UserService.resetPassword(data);
 }

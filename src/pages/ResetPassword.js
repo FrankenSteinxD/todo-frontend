@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { func } from 'prop-types';
+import { func, shape, string } from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Text from '@material-ui/core/Typography';
 import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 import EmailOutlined from '@material-ui/icons/EmailOutlined';
 
 import * as UserActions from 'actions/users';
-import { formatTodoError } from 'lib/util';
+import { formatTodoError, parseQuerytring } from 'lib/util';
 import GuestLayout from 'layouts/GuestLayout';
-import Link from 'components/Link';
 import FormHeader from 'components/FormHeader';
-import Form from './ForgotPassword/Form';
+import Link from 'components/Link';
+import Form from './ResetPassword/Form';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,47 +35,82 @@ const useStyles = makeStyles((theme) => ({
     color: green['300'],
     textAlign: 'center',
   },
+  failedTitle: {
+    marginBottom: theme.spacing(3),
+    color: red['300'],
+    textAlign: 'center',
+  },
+  failedDescription: {
+    marginBottom: theme.spacing(3),
+    color: red['300'],
+    textAlign: 'center',
+  },
 }));
 
-const ForgotPassword = ({ sendRestorePasswordEmail }) => {
+const ResetPassword = ({ resetPassword, location }) => {
   const [done, setDone] = useState(false);
+  const [failed, setFailed] = useState(false);
   const classes = useStyles();
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const { token: t } = parseQuerytring(location.search);
+    if (!t) {
+      setFailed(true);
+    } else {
+      setToken(t);
+    }
+  }, [location]);
 
   const handleSubmit = useCallback(
     (data, form) => {
       return (async () => {
         try {
-          await sendRestorePasswordEmail(data);
+          await resetPassword({ ...data, token });
           setDone(true);
           form.resetForm();
         } catch (e) {
-          const errors = formatTodoError(e);
-          form.setErrors(errors);
+          if (e.response && e.response.status === 401) {
+            setFailed(true);
+          } else {
+            const errors = formatTodoError(e);
+            form.setErrors(errors);
+          }
         }
       })();
     },
-    [sendRestorePasswordEmail],
+    [resetPassword, token],
   );
 
   return (
     <GuestLayout>
       <div className={classes.paper}>
-        {done ? (
+        {failed && (
+          <>
+            <Text className={classes.failedTitle} variant="h3">
+              Sorry
+            </Text>
+            <Text className={classes.failedDescription} variant="body2">
+              Reset password code is invalid or has expired.
+            </Text>
+          </>
+        )}
+        {done && !failed && (
           <>
             <Text className={classes.successTitle} variant="h3">
               Success
             </Text>
             <Text className={classes.successDescription} variant="body2">
-              We have sent you an email to restore your password
+              Password has been reset
             </Text>
           </>
-        ) : (
+        )}
+        {!done && !failed && (
           <>
             <FormHeader title="Restore Password" icon={EmailOutlined} />
             <Form onSubmit={handleSubmit} />
           </>
         )}
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <Link to="/users/login" variant="body2">
           Return to Login
         </Link>
@@ -83,10 +119,13 @@ const ForgotPassword = ({ sendRestorePasswordEmail }) => {
   );
 };
 
-ForgotPassword.propTypes = {
-  sendRestorePasswordEmail: func.isRequired,
+ResetPassword.propTypes = {
+  resetPassword: func.isRequired,
+  location: shape({
+    search: string.isRequired,
+  }).isRequired,
 };
 
 export default connect(null, {
-  sendRestorePasswordEmail: UserActions.sendRestorePasswordEmail,
-})(ForgotPassword);
+  resetPassword: UserActions.resetPassword,
+})(ResetPassword);

@@ -14,3 +14,12 @@ Run `docker build --tag todoappui .` in the project directory.
 The image accepts `REACT_APP_API_URL` environment variable that you can pass to it when running the container with `docker run`.
 
 > [Here's](https://rashadkokash.me/react-docker-env/) how I pass environemt variables to react at runtime
+
+## Motivation
+This app is secure agains **XSS** and **CSRF**
+
+### How is it safe agains XSS ?
+Login token is stored only in memory (as a variable) and refreshed with a refresh token on each reload.
+
+### How is it safe agains CSRF ?
+Refresh token is stored as a SameSite and httpOnly cookie.
